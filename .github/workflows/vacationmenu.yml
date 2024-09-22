@@ -29,5 +29,9 @@ jobs:
 
       # Run TypeScript type check
       - name: Run TypeScript type check
-        run: npx tsc --noEmit
-        continue-on-error: false
+        run: |
+          npx tsc --noEmit
+          if [ $? -ne 0 ]; then
+            echo "TypeScript errors found, failing the build."
+            exit 1
+          fi
