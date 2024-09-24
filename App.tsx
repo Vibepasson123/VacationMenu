@@ -8,11 +8,17 @@
 import React from 'react';
 import { LogBox } from 'react-native';
 import VmHome from './src/screens/vm/VmHome';
+import { HotelManagerProvider } from './src/HotelManager/hotel-provider';
 
 LogBox.ignoreAllLogs();
 const App: React.FC = () => {
 
-  return <VmHome />;
+  return (
+    <HotelManagerProvider>
+      <VmHome />
+    </HotelManagerProvider>
+
+  );
 
 };
 
