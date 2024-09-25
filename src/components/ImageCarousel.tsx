@@ -1,17 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  View,
   FlatList,
-  Image,
   Animated,
   NativeScrollEvent,
   NativeSyntheticEvent,
   FlatList as FlatListType,
-  StyleSheet,
   Dimensions,
 } from 'react-native';
 import NoImage from './NoImage';
-
+import { AnimatedContainer, CarouselAnimatedDot, CarouselImage, CarouselIndicatorContainer, PageContainer } from '../styled/styled';
 
 interface ImageCarouselProps {
   images?: string[];
@@ -36,6 +33,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
   const flatListRef = useRef<FlatListType<any>>(null);
   const scrollX = useRef(new Animated.Value(0)).current;
   const tiltAnim = useRef(new Animated.Value(0)).current;
+  const [hasError, setHasError] = useState<boolean>(false);
 
   useEffect(() => {
     let interval: NodeJS.Timeout | null = null;
@@ -45,12 +43,16 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
         const nextIndex = (currentIndex + 1) % images.length;
         flatListRef.current?.scrollToIndex({ index: nextIndex });
         setCurrentIndex(nextIndex);
-        if (animation) {startTiltAnimation();}
+        if (animation) {
+          startTiltAnimation();
+        }
       }, 3000);
     }
 
     return () => {
-      if (interval) {clearInterval(interval);}
+      if (interval) {
+        clearInterval(interval);
+      }
     };
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentIndex, images.length, autoSlide, animation]);
@@ -86,12 +88,12 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
     outputRange: ['0deg', '8deg'],
   });
 
-  if (images.length === 0) {
-    return <NoImage />;
+  if (images.length === 0 || hasError) {
+    return <NoImage height={height} width={width} />;
   }
 
   return (
-    <View>
+    <PageContainer>
       <FlatList
         ref={flatListRef}
         data={images}
@@ -102,15 +104,18 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
         onScroll={onScroll}
         scrollEventThrottle={16}
         renderItem={({ item }) => (
-          <Animated.View
-            style={[styles.imageContainer, { transform: [{ rotate: animation ? tiltInterpolate : '0deg' }], height, width }]}
+          <AnimatedContainer
+            style={{ transform: [{ rotate: animation ? tiltInterpolate : '0deg' }], height, width }}
           >
-            <Image source={{ uri: item }} style={styles.image} />
-          </Animated.View>
+            <CarouselImage
+              source={{ uri: item }}
+              onError={() => setHasError(true)}
+            />
+          </AnimatedContainer>
         )}
       />
       {showDots && (
-        <View style={styles.indicatorContainer}>
+        <CarouselIndicatorContainer>
           {images?.map((_, imageIndex) => {
             const dotWidth = scrollX.interpolate({
               inputRange: [
@@ -122,43 +127,18 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
               extrapolate: 'clamp',
             });
             return (
-              <Animated.View
+              <CarouselAnimatedDot
                 key={imageIndex}
-                style={[styles.normalDot, { width: dotWidth, backgroundColor: dotsColor }]}
+                style={{ width: dotWidth, backgroundColor: dotsColor }}
               />
             );
           })}
-        </View>
+        </CarouselIndicatorContainer>
       )}
-    </View>
+    </PageContainer>
   );
 };
 
-const styles = StyleSheet.create({
-  imageContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    borderRadius: 8,
-  },
-  image: {
-    position: 'relative',
-    width: '98%',
-    height: '100%',
-    resizeMode: 'cover',
-    borderRadius: 8,
-  },
-  indicatorContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 10,
-  },
-  normalDot: {
-    height: 8,
-    borderRadius: 4,
-    marginHorizontal: 4,
-  },
-});
+
 
 export default ImageCarousel;

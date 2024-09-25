@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   pulseText: {
-    fontSize: 24,
+    fontSize: 14,
     fontWeight: 'bold',
   },
 });

@@ -1,13 +1,7 @@
 import styled, { css } from 'styled-components/native';
-
-
-
 import LottieView from 'lottie-react-native';
-import { Image, TouchableOpacity } from 'react-native';
-
-
-
-
+import { Animated, Dimensions, Image, TouchableOpacity } from 'react-native';
+const { width: screenWidth } = Dimensions.get('window');
 interface CardNewTagImageProps {
   isAddBottom?: boolean;
 }
@@ -15,8 +9,15 @@ interface CardNewTagImageProps {
 interface CardContainerProps {
   cardWidth?: string;
 }
+interface SearchContainerProps {
+  isFocused: boolean;
+}
 
+export const PageContainer = styled.View`
+  flex:1;
+  background-color: #fff;
 
+`;
 export const MainTitleText = styled.Text`
   width: 65%;
   font-weight: 700;
@@ -25,7 +26,6 @@ export const MainTitleText = styled.Text`
   color: #222222;
 
 `;
-
 export const SectionTitle = styled.Text`
   font-weight: 700;
   font-size: 20px;
@@ -36,35 +36,15 @@ export const SectionTitle = styled.Text`
   margin-left: 20px;
   font-family: CircularStd-Medium;
 `;
-/* */
 export const CategoryTitle = styled.Text`
   font-weight: 600;
   font-size: 12px;
   line-height: 18px;
   color: #7e7e7e;
 `;
-// export const FavCardContainer = styled.TouchableOpacity<{
-//   backgroundColor?: string;
-//   select?: boolean;
-// }>`
-//   background-color: ${props => (props.select ? props.backgroundColor : '#fff')};
-//   border-radius: 20px;
-//   padding: 4px 12px;
-//   height: 36px;
-//   margin-left: 12px;
-//   justify-content: center;
-//   align-items: center;
-//   margin-top: 28px;
-//   ${props =>
-//     props.select &&
-//     css`
-//       border: 1px solid #5cb179;
-//     `}
-// `;
-
 export const FavCardContainer = styled.TouchableOpacity<{ ml?: boolean; height?: boolean }>`
   width: 190px;
-  height: ${(props) => (props.height ? '280px' : '280px')}; */
+  height: ${(props) => (props.height ? '280px' : '280px')};
   min-height: 290px;
   background-color: white;
   border-radius: 15px;
@@ -99,7 +79,7 @@ export const CardColLottie = styled(LottieView).attrs({
   border-top-right-radius: 10px;
   background-color: 'red';
 `;
-export const CardNewTagImage = styled(Image)<CardNewTagImageProps>`
+export const CardNewTagImage = styled(Image) <CardNewTagImageProps>`
   position: absolute;
   height: ${(props) => (props.isAddBottom ? '15%' : '25%')};
   width: ${(props) => (props.isAddBottom ? '25%' : '32%')};
@@ -109,11 +89,10 @@ export const CardNewTagImage = styled(Image)<CardNewTagImageProps>`
 `;
 
 export const CardImageContainer = styled.View`
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   border-radius: 5px;
-
- 
+  overflow: hidden;
 `;
 export const FavCardImage = styled(Image)`
   height: undefined;
@@ -147,19 +126,23 @@ export const CardFavoriteContainer = styled.TouchableOpacity`
   z-index: 1;
 `;
 
-export const CardContainer = styled(TouchableOpacity)<CardContainerProps>`
-
+export const CardContainer = styled(TouchableOpacity) <CardContainerProps>`
   width:${(props) => (props.cardWidth ? `${props.cardWidth}%` : '95%')};
   padding-top: 16px;
   padding-bottom: 16px;
   margin-bottom: 16px;
-  background-color: gray;
+  background-color: white;
   border-radius: 16px;
   justify-content: space-between;
   padding-left: 16px;
   padding-right: 16px;
   flex-direction: row;
   align-self: center;
+  shadow-color: rgba(0, 0, 0, 0.25);
+  shadow-offset: 0px 9px;
+  shadow-opacity: 0.5;
+  shadow-radius: 8px;
+  elevation: 5;
   
 `;
 
@@ -193,12 +176,11 @@ export const CardDescription = styled.Text<{
   textAligment?: 'left' | 'right' | 'center';
 }>`
   width: 160px;
-  /* height: 36px; */
+  height: 36px; 
   font-family: CircularStd-Medium;
   font-style: normal;
   margin-bottom: 5px;
   text-align: ${({ textAligment }) => textAligment || 'left'};
-  /* font-weight: 450; */
   font-size: 12px;
   line-height: 18px;
   color: #7e7e7e;
@@ -236,7 +218,6 @@ export const SubTitle = styled.Text`
   text-align: center;
   text-decoration-line: underline;
   top: -5px;
-  /* margin-top: 17px;
   margin-bottom: 27px; */
 `;
 
@@ -266,4 +247,131 @@ export const CelebrationButtonContainer = styled.TouchableOpacity`
 export const CelebrationButtonText = styled.Text`
   font-size: 40px;
   left: 6px;
+`;
+
+export const AnimatedContainer = styled(Animated.View)`
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  overflow: hidden;
+`;
+
+export const CarouselImage = styled.Image`
+  position: relative;
+  width: 100%;
+  height: 100%;
+  resize-mode: cover;
+  border-radius: 8px;
+  overflow: hidden;
+`;
+
+export const CarouselIndicatorContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  margin-top: 10px;
+`;
+
+export const CarouselAnimatedDot = styled(Animated.View)`
+  height: 8px;
+  border-radius: 4px;
+  margin-horizontal: 4px;
+`;
+
+export const HeaderContainer = styled.View`
+  background-color: #4caf50;
+  padding: 20px;
+  padding-top: 50px;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  shadow-color: rgba(0, 0, 0, 0.25);
+  shadow-offset: 0px 9px;
+  shadow-opacity: 0.5;
+  shadow-radius: 8px;
+  elevation: 5;
+  z-index:10;
+`;
+
+export const LocationContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 20px;
+`;
+
+export const LocationRow = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const LocationText = styled.Text`
+  color: white;
+  font-size: 14px;
+  margin-left: 6px;
+`;
+
+export const IconContainer = styled.TouchableOpacity`
+  background-color: rgba(255, 255, 255, 0.2);
+  padding: 8px;
+  border-radius: 10px;
+`;
+
+export const SearchContainer =  styled.View<SearchContainerProps>`
+  width: 85%;
+  flex-direction: row;
+  align-items: center;
+  border-width: 1px;
+  border-color: ${(props) => (props.isFocused ? 'gray' : '#ccc')};
+  padding: 10px;
+  border-radius: 25px;
+  background-color: #fff;
+  shadow-color: ${(props) => (props.isFocused ? 'gray' : 'transparent')};
+  shadow-offset: 0px 2px;
+  shadow-opacity: ${(props) => (props.isFocused ? 0.8 : 0)};
+  shadow-radius: 3px;
+  elevation: 5;
+`;
+
+export const SearchInput = styled.TextInput`
+  flex: 1;
+  font-size: 16px;
+  padding-left: 10px;
+  
+`;
+
+export const RightIconsContainer = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+`;
+
+export const SearchRow = styled.View`
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const SuggestionsContainer = styled.View`
+  background-color: white;
+  border-radius: 10px;
+  elevation: 3;
+  margin-top: 5px;
+  padding: 10px;
+  z-index: 1000;
+  width: ${screenWidth * 0.85}px;
+  position: absolute;
+  top: 50px;
+`;
+
+export const SuggestionText = styled.Text`
+  padding-vertical: 10px;
+  padding-horizontal: 5px;
+  border-bottom-width: 0.5px;
+  border-bottom-color: #ccc;
+  font-size: 16px;
 `;

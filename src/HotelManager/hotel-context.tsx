@@ -9,5 +9,8 @@ interface IHotelManagerContext {
   hotelList: any;
   loading: boolean;
   error: string | null;
+  searchText?: string | null,
+  suggestions?: string[],
+  handleSearchChange: (string:string) => void;
 }
 export const [useHotelManger, HotelMangerContext] = createCtx<IHotelManagerContext>('HotelManagerContext');

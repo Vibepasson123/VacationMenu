@@ -1,32 +1,33 @@
 import React from 'react';
-import { StyleSheet } from 'react-native';
 import styled from 'styled-components/native';
 import Lottie from 'lottie-react-native';
 import { HotelManager } from '../utils/GlobalValues';
-import PulseText from './PulseText';
-const styles = StyleSheet.create({
-  lotteImage: { width: 182, height: 192 },
-});
 
- const Container = styled.View`
-  height: 30%;
+interface NoImageProps {
+  width?: number;
+  height?: number;
+  cHp?: number;
+}
+
+const Container = styled.View<{ heightProp: number }>`
+  height: ${({ heightProp }) => heightProp}%;
   width: 100%;
   align-self: center;
   justify-content: center;
   align-items: center;
+  border-width:1px;
 `;
 
-const NoImage = () => {
+const NoImage: React.FC<NoImageProps> = ({ width = 182, height = 92, cHp = 60 }) => {
   return (
-    <Container>
+    <Container heightProp={cHp}>
       <Lottie
-        style={styles.lotteImage}
+        style={{ width: width, height: height }}
         resizeMode="cover"
         source={HotelManager.NoImage}
         autoPlay
         loop
       />
-      <PulseText message={'comming-soon'} />
     </Container>
   );
 };
