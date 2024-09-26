@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useHotelManger } from '../HotelManager/hotel-context';
-import useCurrentLocation from '../hooks/useCurrentLocation';
+/* import useCurrentLocation from '../hooks/useCurrentLocation'; */
 import {
   HeaderContainer,
   IconContainer,
@@ -20,8 +20,9 @@ import { truncateText } from '../utils/helper';
 const Header: React.FC = () => {
   const { searchText, suggestions, handleSearchChange } = useHotelManger();
   const [showSuggestions, setShowSuggestions] = React.useState(true);
-  const { address, refreshLocation } = useCurrentLocation();
+ /*  const { address, refreshLocation } = useCurrentLocation(); */
   const [isFocused, setIsFocused] = React.useState(false);
+  
 
   const renderSuggestions = () => {
     if (!showSuggestions || suggestions?.length === 0) {
@@ -41,8 +42,8 @@ const Header: React.FC = () => {
     <HeaderContainer>
       <LocationContainer>
         <LocationRow>
-          <Icon name="location-outline" size={24} color="white" onPress={refreshLocation} />
-          <LocationText>{truncateText(address ? address : 'Home', 20)}</LocationText>
+          <Icon name="location-outline" size={24} color="white" /* onPress={refreshLocation} */ />
+          <LocationText>{truncateText('Home', 20)}</LocationText>
         </LocationRow>
         <RightIconsContainer>
           <IconContainer>
@@ -52,9 +53,10 @@ const Header: React.FC = () => {
       </LocationContainer>
       <SearchRow>
         <SearchContainer isFocused={isFocused}>
-          <Icon name="search-outline" size={24} color="gray" />
+          <Icon name="search-outline" size={24} color="#44403C" />
           <SearchInput
             placeholder="Search Here"
+            placeholderTextColor={'#44403C'}
             value={searchText ? searchText : undefined}
             onChangeText={(val) => { handleSearchChange(val); setShowSuggestions(!showSuggestions); }}
             onFocus={() => setIsFocused(true)}

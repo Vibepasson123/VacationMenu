@@ -15,7 +15,7 @@ const Container = styled.View<{ heightProp: number }>`
   align-self: center;
   justify-content: center;
   align-items: center;
-  border-width:1px;
+ 
 `;
 
 const NoImage: React.FC<NoImageProps> = ({ width = 182, height = 92, cHp = 60 }) => {

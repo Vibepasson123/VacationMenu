@@ -7,17 +7,20 @@
 
 import React from 'react';
 import { LogBox } from 'react-native';
-/* import VmHome from './src/screens/vm/VmHome'; */
 import { HotelManagerProvider } from './src/HotelManager/hotel-provider';
-import HotelList from './src/screens/vm/HotelList';
+import { NavigationContainer } from '@react-navigation/native';
+import AppStack from './src/navigations/AppStack';
+import { enableScreens } from 'react-native-screens';
 
 LogBox.ignoreAllLogs();
 const App: React.FC = () => {
+  enableScreens();
 
   return (
     <HotelManagerProvider>
-     {/*  <VmHome /> */}
-     <HotelList/>
+      <NavigationContainer>
+        <AppStack />
+      </NavigationContainer>
     </HotelManagerProvider>
 
   );

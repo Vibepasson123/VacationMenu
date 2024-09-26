@@ -8,7 +8,7 @@ import {
   Dimensions,
 } from 'react-native';
 import NoImage from './NoImage';
-import { AnimatedContainer, CarouselAnimatedDot, CarouselImage, CarouselIndicatorContainer, PageContainer } from '../styled/styled';
+import { AnimatedContainer, CarouselAnimatedDot, CarouselImage, CarouselIndicatorContainer } from '../styled/styled';
 
 interface ImageCarouselProps {
   images?: string[];
@@ -93,7 +93,7 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
   }
 
   return (
-    <PageContainer>
+    <>
       <FlatList
         ref={flatListRef}
         data={images}
@@ -135,10 +135,10 @@ const ImageCarousel: React.FC<ImageCarouselProps> = ({
           })}
         </CarouselIndicatorContainer>
       )}
-    </PageContainer>
+    </>
   );
 };
 
 
 
-export default ImageCarousel;
+export default React.memo(ImageCarousel);

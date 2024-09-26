@@ -13,9 +13,23 @@ interface SearchContainerProps {
   isFocused: boolean;
 }
 
+interface PriceContainerTagProps {
+  height?: number;
+  width?: number;
+  backgroundColor?: string;
+  opacity?: number;
+  left?: number;
+}
+
 export const PageContainer = styled.View`
-  flex:1;
-  background-color: #fff;
+  background-color: red;
+  height:50px;
+  width:100px;
+  overflow: hidden;
+
+`;
+export const EmptyScreen = styled.View`
+ background-color: #EFF6FF;
 
 `;
 export const MainTitleText = styled.Text`
@@ -94,6 +108,7 @@ export const CardImageContainer = styled.View`
   border-radius: 5px;
   overflow: hidden;
 `;
+
 export const FavCardImage = styled(Image)`
   height: undefined;
   width: 100%;
@@ -118,11 +133,11 @@ export const TimeText = styled.Text`
   margin-left: 4px;
 `;
 export const CardFavoriteContainer = styled.TouchableOpacity`
-  width: 16px;
-  height: 16px;
+  width: 34px;
+  height: 34px;
   position: absolute;
-  top: 20px;
-  right: 16px;
+  top: -10px;
+  right: 1px;
   z-index: 1;
 `;
 
@@ -131,7 +146,7 @@ export const CardContainer = styled(TouchableOpacity) <CardContainerProps>`
   padding-top: 16px;
   padding-bottom: 16px;
   margin-bottom: 16px;
-  background-color: white;
+  background-color: #ECFEFF;
   border-radius: 16px;
   justify-content: space-between;
   padding-left: 16px;
@@ -158,14 +173,10 @@ export const TextsWrapper = styled.View`
   padding-right: 12px;
 `;
 export const MainCardTitle = styled.Text<{ bigText?: boolean; marginTop?: number }>`
-  /* margin-bottom: 4px; */
-  /* width: 150px; */
-  /* height: 24px; */
-  font-family: CircularStd-Medium;
-  font-weight: 500;
+  font-weight:600;
   font-size: 16px;
   line-height: 24px;
-  color: #222222;
+  color: #44403C;
   ${(props) =>
     props.bigText &&
     css`
@@ -279,7 +290,7 @@ export const CarouselAnimatedDot = styled(Animated.View)`
 `;
 
 export const HeaderContainer = styled.View`
-  background-color: #4caf50;
+  background-color: #2563EB;
   padding: 20px;
   padding-top: 50px;
   flex-direction: column;
@@ -340,6 +351,7 @@ export const SearchInput = styled.TextInput`
   flex: 1;
   font-size: 16px;
   padding-left: 10px;
+  font-color: #44403C;
   
 `;
 
@@ -375,3 +387,138 @@ export const SuggestionText = styled.Text`
   border-bottom-color: #ccc;
   font-size: 16px;
 `;
+export const TabIndicatorContainer = styled.View`
+  flex-direction: column;
+  align-items: center;
+  top:7px; 
+`;
+
+export const TabTitle = styled.Text`
+  font-size: 12px;
+`;
+export const TabBarContainer = styled.View`
+ position: absolute;
+  flex-direction: row;
+  width: 90%;
+  bottom:3%;
+  margin-left:5%;
+  margin-right:5%;
+  height: 80px;
+  align-items: center;
+  justify-content: space-around;
+  background-color: #3B82F6;
+  border-radius: 25px;
+  border-width: 2px;
+  border-color: #3B82F6;
+  elevation: 16;
+  shadow-color: black;
+  shadow-offset: 6.2px -8.2px;
+  shadow-opacity: 0.1;
+  shadow-radius: 3px;
+`;
+export const FlexRow = styled.View<{
+  spaceBetween?: boolean;
+  spaceAround?: boolean;
+  ml?: boolean;
+  mr?: boolean;
+  mt?: boolean;
+  mb?: boolean;
+  center?: boolean;
+}>`
+  flex-direction: row;
+  align-items: center;
+  ${(props) =>
+    props.spaceBetween &&
+    css`
+      justify-content: space-between;
+    `}
+    ${(props) =>
+      props.spaceAround &&
+      css`
+        justify-content: space-around;
+      `}
+  ${(props) =>
+    props.center &&
+    css`
+      justify-content: center;
+    `}
+  ${(props) =>
+    props.ml &&
+    css`
+      margin-left: 24px;
+    `}
+  ${(props) =>
+    props.mr &&
+    css`
+      margin-right: 24px;
+    `}
+  ${(props) =>
+    props.mt &&
+    css`
+      margin-top: 16px;
+    `}
+     ${(props) =>
+    props.mb &&
+    css`
+      margin-bottom: 16px;
+    `}
+`;
+
+export const CardFooter = styled.View`
+  position: absolute;
+  left: 15px;
+  bottom: 5%;
+  align-self: center;
+  flex-direction: row;
+  width: 100%;
+  height: 30%;
+  justify-content: space-between;
+`;
+
+export const PhoneNumberContainer = styled.TouchableOpacity`
+  position: relative;
+  width: 45%;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+`;
+
+export const PriceContainer = styled.View`
+  position: relative;
+  margin-left: 8%;
+  width: 55%;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  border-top-left-radius:5px;
+`;
+
+export const PhoneText = styled.Text`
+  color: #7e7e7e;
+  flex-wrap: wrap;
+  width: 80%; 
+  left:3%;
+`;
+export const PriceText = styled.Text`
+  position: absolute;
+  color: blue;
+  lex-wrap: wrap;
+  width: 80%;
+  font-size:29px;
+  font-weight:900; 
+  left:60px;
+
+`;
+export const PriceContainerTag = styled.View<PriceContainerTagProps>`
+  position: 'absolute';
+  height: ${({ height }) => height || 100}px;
+  width: ${({ width }) => width || 250}px;
+  background-color: ${({ backgroundColor }) => backgroundColor || 'blue'};
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  border-radius:16px;
+
+  opacity: ${({ opacity }) => opacity ?? 0.7}; /* Default opacity to 0.7 */
+`;
+
