@@ -2,9 +2,10 @@ import React, { useRef, useEffect } from 'react';
 import { Animated, View, StyleSheet } from 'react-native';
 interface PulseTextProps {
     message: string;
-    color?: string
+    color?: string;
+    fontSize?: number;
   }
-  const PulseText: React.FC<PulseTextProps> = ({ message, color }) => {
+  const PulseText: React.FC<PulseTextProps> = ({ message, color,fontSize }) => {
   const scaleAnim = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
@@ -33,7 +34,8 @@ interface PulseTextProps {
           <Animated.Text
         style={[
           styles.pulseText,
-          { transform: [{ scale: scaleAnim }], color: color || '#ff6347' }, // Dynamically apply color
+
+          { transform: [{ scale: scaleAnim }], color: color || '#ff6347', fontSize:fontSize }, // Dynamically apply color
         ]}
       >
         {message}
@@ -48,7 +50,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   pulseText: {
-    fontSize: 14,
+    fontSize: 16,
     fontWeight: 'bold',
   },
 });

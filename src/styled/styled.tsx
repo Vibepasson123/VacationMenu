@@ -12,7 +12,6 @@ interface CardContainerProps {
 interface SearchContainerProps {
   isFocused: boolean;
 }
-
 interface PriceContainerTagProps {
   height?: number;
   width?: number;
@@ -20,6 +19,11 @@ interface PriceContainerTagProps {
   opacity?: number;
   left?: number;
 }
+interface IconContainerProps {
+  radius?: number;
+  backgroundColor?: string;
+}
+
 
 export const PageContainer = styled.View`
   background-color: red;
@@ -85,7 +89,7 @@ export const CardColImage = styled(Image)`
   border-top-right-radius: 10px;
 `;
 export const CardColLottie = styled(LottieView).attrs({
-  resizeMode: 'cover', // Add any other LottieView attributes here
+  resizeMode: 'cover',
 })`
   width: 100%;
   aspect-ratio: 1;
@@ -158,7 +162,6 @@ export const CardContainer = styled(TouchableOpacity) <CardContainerProps>`
   shadow-opacity: 0.5;
   shadow-radius: 8px;
   elevation: 5;
-  
 `;
 
 export const ImageView = styled(Image)`
@@ -274,6 +277,7 @@ export const CarouselImage = styled.Image`
   resize-mode: cover;
   border-radius: 8px;
   overflow: hidden;
+  border-bottom-left-radius: 8px;
 `;
 
 export const CarouselIndicatorContainer = styled.View`
@@ -325,13 +329,13 @@ export const LocationText = styled.Text`
   margin-left: 6px;
 `;
 
-export const IconContainer = styled.TouchableOpacity`
-  background-color: rgba(255, 255, 255, 0.2);
+export const IconContainer = styled.TouchableOpacity<IconContainerProps>`
+  background-color: ${(props) => props.backgroundColor || 'rgba(255, 255, 255, 0.2)'};
   padding: 8px;
-  border-radius: 10px;
+  border-radius: ${(props) => (props.radius ? `${props.radius}px` : '10px')};
 `;
 
-export const SearchContainer =  styled.View<SearchContainerProps>`
+export const SearchContainer = styled.View<SearchContainerProps>`
   width: 85%;
   flex-direction: row;
   align-items: center;
@@ -433,8 +437,8 @@ export const FlexRow = styled.View<{
       justify-content: space-between;
     `}
     ${(props) =>
-      props.spaceAround &&
-      css`
+    props.spaceAround &&
+    css`
         justify-content: space-around;
       `}
   ${(props) =>
@@ -505,7 +509,7 @@ export const PriceText = styled.Text`
   lex-wrap: wrap;
   width: 80%;
   font-size:29px;
-  font-weight:900; 
+  font-weight:700; 
   left:60px;
 
 `;
@@ -519,6 +523,110 @@ export const PriceContainerTag = styled.View<PriceContainerTagProps>`
   margin: 10px;
   border-radius:16px;
 
-  opacity: ${({ opacity }) => opacity ?? 0.7}; /* Default opacity to 0.7 */
+  opacity: ${({ opacity }) => opacity ?? 0.7}; 
+`;
+export const ModalWrapper = styled.View`
+  flex: 1;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.8); 
 `;
 
+export const ModalContent = styled.View`
+
+  width: 90%;
+  padding: 20px;
+  border-radius: 20px;
+  min-height: 200px;
+`;
+export const ModalOptionButton = styled.TouchableOpacity`
+  background-color: #007bff;
+  padding: 12px;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  align-items: center;
+`;
+
+export const ModalButtonText = styled.Text`
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+`;
+export const ModalCloseButton = styled.TouchableOpacity`
+background-color: red;
+padding: 12px;
+border-radius: 10px;
+align-items: center;
+`;
+export const ModalButtonContainer = styled.View`
+  margin-top: 20px;
+`;
+
+export const SortMenuHeader = styled.View`
+  flex-direction: row;
+  height: 50px;
+  width: 65%;
+  top: -21px;
+  align-items: center;
+  justify-content: center;
+`;
+export const MenuContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const MenuItem = styled.TouchableOpacity<{ backgroundColor: string }>`
+  background-color: ${(props) => props.backgroundColor};
+  width: 85%;
+  padding: 20px;
+  margin-bottom: -1px; 
+  border-radius: 10px;
+  transform: rotate(-16deg); 
+  justify-content: center;
+  align-items: flex-start;
+  elevation: 5;
+  shadow-color: #000; 
+  shadow-offset:0px 2px;
+  shadow-opacity: 0.8;
+  shadow-radius: 2px;
+`;
+
+export const IconTextContainer = styled.View`
+  flex-direction: row;
+  align-items: center;
+`;
+
+export const MenuItemText = styled.Text`
+  font-size: 18px;
+  font-weight: bold;
+  color: black;
+  margin-left: 10px;
+`;
+export const PageHeaderTitleContainer = styled.View<{ isTabScreen: boolean }>`
+  align-self: center;
+  bottom: ${({ isTabScreen }) => (isTabScreen ? '-35%' : '15%')};
+`;
+
+export const PageBody = styled.View`
+  flex:1;
+  position: 'relative';
+  alignItems: 'center';
+  max-height:70%;
+  padding-top:2%;
+  backgroundColor:#DBEAFE;
+
+`;
+export const Pagesection = styled.View`
+  flex:1;
+  position: 'relative';
+  margin-bottom:20px;
+  max-height:15%;
+  padding-top:2%;
+  margin-top:8%;
+  width:100%;
+  justifyContent:space-around;
+  flex-direction:row;
+`;

@@ -4,9 +4,10 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import Animated, { useAnimatedStyle, withTiming } from 'react-native-reanimated';
 import Icon from 'react-native-vector-icons/Fontisto';
 import HotelList from '../screens/vm/HotelList';
-import FavouritesScreen from '../screens/vm/FavouritesScreen';
 import SearchScreen from '../screens/vm/SearchScreen';
 import { TabBarContainer } from '../styled/styled';
+import { useHotelManger } from '../HotelManager/hotel-context';
+import FilterList from '../screens/vm/FilterList';
 
 const Tab = createBottomTabNavigator();
 
@@ -20,8 +21,13 @@ const BottomTabBar: React.FC<BottomTabBarProps> = () => {
     // eslint-disable-next-line react/no-unstable-nested-components
     <Tab.Navigator  tabBar={(props) => <TabBar {...props} /> } >
       <Tab.Screen name="Hotel" component={HotelList} options={{ headerShown: false }} />
-      <Tab.Screen name="Search" component={FavouritesScreen} options={{ headerShown: false }} />
-      <Tab.Screen name="Favorite" component={SearchScreen} options={{ headerShown: false }} />
+      <Tab.Screen name="Search"  component={SearchScreen} options={{ headerShown: false }} />
+      <Tab.Screen
+       name="Favorite"
+       component={FilterList}
+       options={{ headerShown: false }}
+       initialParams={{ fav: true, title: 'Favorites' }}
+        />
     </Tab.Navigator>
   );
 };
@@ -34,7 +40,8 @@ interface TabBarProps {
 }
 
 const TabBar: React.FC<TabBarProps> = ({ state, navigation }) => {
-  const [selected, setSelected] = useState('Hotel');
+  const [selected, setSelected] = useState('Home');
+  const { handleSearchChange } = useHotelManger();
   const { routes } = state;
 
   const renderColor = (currentTab: string): string => (currentTab === selected ? 'white' : '#154341');
@@ -44,6 +51,8 @@ const TabBar: React.FC<TabBarProps> = ({ state, navigation }) => {
     if (state.index !== index) {
       setSelected(activePath);
       navigation.navigate(activePath);
+      handleSearchChange({ searchType: 'reset',
+        value:'null'});
     }
   };
 

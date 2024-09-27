@@ -16,13 +16,13 @@ const BorderedCharacterText = ({ text }: { text: string }) => {
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    flexWrap: 'wrap', // Allow wrapping in case of long text
+    flexWrap: 'wrap',
   },
   charWrapper: {
-    borderWidth: 1, // Border around each character
+    borderWidth: 1,
     borderColor: 'black',
-    margin: 2, // Spacing between characters
-    padding: 4, // Padding around characters
+    margin: 2,
+    padding: 4,
   },
   charText: {
     fontSize: 20,

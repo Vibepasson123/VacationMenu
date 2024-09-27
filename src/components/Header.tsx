@@ -1,14 +1,15 @@
 import React from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Modal, TouchableOpacity } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
 import { useHotelManger } from '../HotelManager/hotel-context';
-/* import useCurrentLocation from '../hooks/useCurrentLocation'; */
 import {
   HeaderContainer,
   IconContainer,
   LocationContainer,
   LocationRow,
   LocationText,
+  ModalContent,
+  ModalWrapper,
   RightIconsContainer,
   SearchContainer,
   SearchInput,
@@ -17,12 +18,32 @@ import {
   SuggestionText,
 } from '../styled/styled';
 import { truncateText } from '../utils/helper';
+import StackedMenu from './StackedMenu';
 const Header: React.FC = () => {
   const { searchText, suggestions, handleSearchChange } = useHotelManger();
   const [showSuggestions, setShowSuggestions] = React.useState(true);
- /*  const { address, refreshLocation } = useCurrentLocation(); */
   const [isFocused, setIsFocused] = React.useState(false);
-  
+  const [isModalVisible, setModalVisible] = React.useState(false);
+
+  const handlePress = (value: string) => {
+    handleSearchChange({ searchType: 'sortBy',
+      value:value});
+      setModalVisible(false);
+  };
+
+  const handleClose = () => {
+    handleSearchChange({ searchType: 'sortBy',
+      value:'none'});
+    setModalVisible(false);
+  };
+
+
+  const renderModalContent = () => (
+    <ModalContent>
+       <StackedMenu onPress={(val)=>handlePress(val)} onClose={handleClose} />
+    </ModalContent>
+  );
+
 
   const renderSuggestions = () => {
     if (!showSuggestions || suggestions?.length === 0) {
@@ -31,18 +52,28 @@ const Header: React.FC = () => {
     return (
       <SuggestionsContainer>
         {suggestions?.map((suggestion, index) => (
-          <TouchableOpacity key={index} onPress={() => { handleSearchChange(suggestion); setShowSuggestions(false); }}>
+          <TouchableOpacity
+            key={index}
+            onPress={() => {
+              handleSearchChange({
+                searchType: 'searchByWord',
+                value: suggestion,
+              });
+              setShowSuggestions(false);
+            }}
+          >
             <SuggestionText>{suggestion}</SuggestionText>
           </TouchableOpacity>
         ))}
       </SuggestionsContainer>
     );
   };
+
   return (
     <HeaderContainer>
       <LocationContainer>
         <LocationRow>
-          <Icon name="location-outline" size={24} color="white" /* onPress={refreshLocation} */ />
+          <Icon name="location-outline" size={24} color="white" />
           <LocationText>{truncateText('Home', 20)}</LocationText>
         </LocationRow>
         <RightIconsContainer>
@@ -56,9 +87,15 @@ const Header: React.FC = () => {
           <Icon name="search-outline" size={24} color="#44403C" />
           <SearchInput
             placeholder="Search Here"
-            placeholderTextColor={'#44403C'}
-            value={searchText ? searchText : undefined}
-            onChangeText={(val) => { handleSearchChange(val); setShowSuggestions(!showSuggestions); }}
+            placeholderTextColor="#44403C"
+            value={searchText || ''}
+            onChangeText={(val) => {
+              handleSearchChange({
+                searchType: 'searchByWord',
+                value: val,
+              });
+              setShowSuggestions(true);
+            }}
             onFocus={() => setIsFocused(true)}
             onBlur={() => setIsFocused(false)}
           />
@@ -66,13 +103,22 @@ const Header: React.FC = () => {
         {renderSuggestions()}
         <RightIconsContainer>
           <IconContainer>
-            <Icon name="options-outline" size={24} color="white" />
+            <Icon name="options-outline" size={24} color="white" onPress={() => setModalVisible(true)} />
           </IconContainer>
         </RightIconsContainer>
       </SearchRow>
+      <Modal
+        animationType="fade"
+        transparent={true}
+        visible={isModalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <ModalWrapper>
+          {renderModalContent()}
+        </ModalWrapper>
+      </Modal>
     </HeaderContainer>
   );
 };
 
 export default Header;
-

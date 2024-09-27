@@ -6,14 +6,13 @@ import { CardContainer, CardImageContainer, ImageView } from '../styled/styled';
 
 const HotelCard = ({ images }: any) => {
 
-    return (
-        <CardContainer >
-               <CardImageContainer>
+  return (
+    <CardContainer >
+      <CardImageContainer>
         <ImageView source={{ uri: images?.[0] }} resizeMode={'cover'} />
       </CardImageContainer>
-
-        </CardContainer>
-    );
+    </CardContainer>
+  );
 };
 
 export default HotelCard;

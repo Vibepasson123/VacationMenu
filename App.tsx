@@ -10,13 +10,11 @@ import { LogBox } from 'react-native';
 import { HotelManagerProvider } from './src/HotelManager/hotel-provider';
 import { NavigationContainer } from '@react-navigation/native';
 import AppStack from './src/navigations/AppStack';
-import { enableScreens } from 'react-native-screens';
 
 LogBox.ignoreAllLogs();
 const App: React.FC = () => {
-  enableScreens();
-
   return (
+
     <HotelManagerProvider>
       <NavigationContainer>
         <AppStack />
