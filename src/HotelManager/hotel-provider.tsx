@@ -43,6 +43,7 @@ export const HotelManagerProvider = ({ children }: FetchProviderProps) => {
         dispatch({ type: 'FETCH_SUCCESS', payload: response.data });
         setFilteredHotelList(response.data);
       } catch (error: any) {
+        Alert.alert(error.message);
         dispatch({ type: 'FETCH_FAILURE', payload: error.message });
       }
     }
