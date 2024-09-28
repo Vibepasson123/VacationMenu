@@ -7,7 +7,7 @@ import { useRoute } from '@react-navigation/native';
 
 const FilterList: React.FC = () => {
   const route = useRoute();
-  const { fav, title } = route.params as { fav: boolean, title: string };
+   const { fav = false, title = '' } = route.params ?? {} as any;
   return (
     // eslint-disable-next-line react-native/no-inline-styles
     <EmptyScreen style={{flex:1}}>
